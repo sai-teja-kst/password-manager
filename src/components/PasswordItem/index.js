@@ -11,8 +11,8 @@ const PasswordItem = props => {
     '#0ea5e9',
   ]
   const profilePicColor = profileColors[Math.floor(Math.random()) * 10 - 4]
-  const {record, deletePasswordRecord, showPassword} = props
-  const {id, url, name, password} = record
+  const {record, deletePasswordRecord, showPassword, onCopyBtn} = props
+  const {id, ip, url, name, password} = record
 
   const passwordPattern = showPassword ? (
     <p className="website-text">{password}</p>
@@ -28,15 +28,52 @@ const PasswordItem = props => {
     deletePasswordRecord(id)
   }
 
+  const onCopyUrl = () => {
+    onCopyBtn(url)
+  }
+
+  const onCopyName = () => {
+    onCopyBtn(name)
+  }
+
+  const onCopyIP = () => {
+    onCopyBtn(ip)
+  }
+
+  const onCopyPasswd = () => {
+    onCopyBtn(password)
+  }
+
   return (
     <li className="password-item">
       <div className="circle" style={{background: {profilePicColor}}}>
         {name.charAt(0)}
       </div>
       <div className="details-container">
-        <p className="website-text">{url}</p>
-        <p className="website-text">{name}</p>
-        {passwordPattern}
+        <div className="details-card">
+          <p className="website-text">{url}</p>
+          <button type="button" className="copy-btn" onClick={onCopyUrl}>
+            Copy
+          </button>
+        </div>
+        <div className="details-card">
+          <p className="website-text">{ip}</p>
+          <button type="button" className="copy-btn" onClick={onCopyIP}>
+            Copy
+          </button>
+        </div>
+        <div className="details-card">
+          <p className="website-text">{name}</p>
+          <button type="button" className="copy-btn" onClick={onCopyName}>
+            Copy
+          </button>
+        </div>
+        <div className="details-card">
+          {passwordPattern}
+          <button type="button" className="copy-btn" onClick={onCopyPasswd}>
+            Copy
+          </button>
+        </div>
       </div>
       <button
         type="button"

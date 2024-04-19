@@ -11,6 +11,7 @@ class PasswordManager extends Component {
     inputPassword: '',
     searchInput: '',
     showPassword: false,
+    inputIPAddress: '',
   }
 
   deletePasswordRecord = id => {
@@ -44,16 +45,25 @@ class PasswordManager extends Component {
     this.setState({inputPassword: e.target.value})
   }
 
+  onInputIPChange = e => {
+    this.setState({inputIPAddress: e.target.value})
+  }
+
   onCheckChange = () => {
     this.setState(prevState => ({showPassword: !prevState.showPassword}))
+  }
+
+  onCopyBtn = x => {
+    navigator.clipboard.writeText(x)
   }
 
   addPasswordRecord = e => {
     e.preventDefault()
     console.log('in ad ')
-    const {inputUrl, inputName, inputPassword} = this.state
+    const {inputUrl, inputName, inputPassword, inputIPAddress} = this.state
     const newPasswordRecord = {
       id: uuidv4(),
+      ip: inputIPAddress,
       url: inputUrl,
       name: inputName,
       password: inputPassword,
@@ -102,8 +112,24 @@ class PasswordManager extends Component {
                   <input
                     className="input"
                     type="text"
-                    placeholder="Enter Website"
+                    placeholder="Enter Name"
                     onChange={this.onInputUrlChange}
+                  />
+                </div>
+                <div className="input-container">
+                  <div className="icon-container">
+                    <img
+                      className="input-icon"
+                      src="https://assets.ccbp.in/frontend/react-js/password-manager-website-img.png"
+                      alt="IP address"
+                    />
+                  </div>
+
+                  <input
+                    className="input"
+                    type="text"
+                    placeholder="Enter IP address"
+                    onChange={this.onInputIPChange}
                   />
                 </div>
                 <div className="input-container">
@@ -192,6 +218,7 @@ class PasswordManager extends Component {
                       record={eachRecord}
                       deletePasswordRecord={this.deletePasswordRecord}
                       showPassword={showPassword}
+                      onCopyBtn={this.onCopyBtn}
                     />
                   ))}
                 </ul>
